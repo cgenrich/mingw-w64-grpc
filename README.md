@@ -11,12 +11,12 @@ yaourt -Pi .
 ## Dependencies
 * Protocol Buffers
 * GRPC
-> These must be native tools due as they are used during cross-compilation and must be locally executable.
+> These must be native tools as they are used during cross-compilation and must be locally executable.
 
 ## Hacks applied
 ### CMakeLists.txt changes
 The build environment is Linux but cross-compilation will create windows DLL and EXE files.  During the build .proto files are used to generate source code.  The correct Linux binary *protoc* is used but the **gRPC Plugin** was just built for *Windows* and can't be used.
-Additionally a missing -lws2_32 flag is required to build the third party address_sorting module.
+Additionally, a missing -lws2_32 flag is required to build the third party address_sorting module.
 ```bash
  sed -i 's!\$<TARGET_FILE:grpc_cpp_plugin>!/usr/bin/grpc_cpp_plugin!' CMakeLists.txt
   sed -i 's/target_link_libraries(address_sorting/target_link_libraries(address_sorting\n  ws2_32/' CMakeLists.txt
